@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Field Verification Checklist</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+
+        .form-section {
+            padding: 30px;
+        }
+
+        .company-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 5px solid #2a5298;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input, 
+        .form-group select, 
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus, 
+        .form-group select:focus, 
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #2a5298;
+            box-shadow: 0 0 0 3px rgba(42, 82, 152, 0.1);
+        }
+
+        .required {
+            color: #dc3545;
+        }
+
+        .completion-stats {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #e1e5e9;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.5em;
+            font-weight: 600;
+            color: #2a5298;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .progress-bar {
+            background: #e1e5e9;
+            height: 6px;
+            border-radius: 3px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #28a745, #20c997);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            display: none;
+        }
+
+        .submit-section {
+            background: #f8f9fa;
+            padding: 30px;
+            text-align: center;
+            border-top: 1px solid #e1e5e9;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        @media (max-width: 768px) {
+            .company-info {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .container {
+                margin: 10px;
+                border-radius: 10px;
+            }
+
+            .form-section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Field Verification Checklist</h1>
+            <p>Complete HSE Assessment Form</p>
+        </div>
+
+        <form class="form-section" id="verificationForm" name="frm35" method="POST" data-netlify="true">
+            
+            <!-- Netlify Forms için gerekli gizli input -->
+            <input type="hidden" name="form-name" value="frm35" />
+            
+            <!-- Progress ve Success mesajı -->
+            <div class="completion-stats">
+                <div class="stat-item">
+                    <div class="stat-number" id="completedCount">0</div>
+                    <div class="stat-label">Completed</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="totalCount">4</div>
+                    <div class="stat-label">Total Items</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="completionPercent">0%</div>
+                    <div class="stat-label">Progress</div>
+                </div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+
+            <div class="success-message" id="successMessage">
+                Form başarıyla gönderildi! Netlify dashboard'da Forms bölümünden görebilirsiniz.
+            </div>
+
+            <!-- Company Information -->
+            <div class="company-info">
+                <div class="form-group">
+                    <label for="company">Company <span class="required">*</span></label>
+                    <input type="text" id="company" name="company" required placeholder="Enter company name">
+                </div>
+                <div class="form-group">
+                    <label for="datetime">Date & Time <span class="required">*</span></label>
+                    <input type="datetime-local" id="datetime" name="datetime" required>
+                </div>
+                <div class="form-group">
+                    <label for="contract">Contract Number</label>
+                    <input type="text" id="contract" name="contract" placeholder="Enter contract number">
+                </div>
+                <div class="form-group">
+                    <label for="locations">Locations</label>
+                    <input type="text" id="locations" name="locations" placeholder="Enter locations">
+                </div>
+            </div>
+
+            <!-- Test Questions (sadece 4 adet test için) -->
+            <div class="form-group">
+                <label>Test Question 1 <span class="required">*</span></label>
+                <select name="status_1_1" required>
+                    <option value="">Select</option>
+                    <option value="Green">Green</option>
+                    <option value="Amber">Amber</option>
+                    <option value="Red">Red</option>
+                    <option value="N/A">N/A</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Test Question 2 <span class="required">*</span></label>
+                <select name="status_1_2" required>
+                    <option value="">Select</option>
+                    <option value="Green">Green</option>
+                    <option value="Amber">Amber</option>
+                    <option value="Red">Red</option>
+                    <option value="N/A">N/A</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Test Question 3 <span class="required">*</span></label>
+                <select name="status_1_3" required>
+                    <option value="">Select</option>
+                    <option value="Green">Green</option>
+                    <option value="Amber">Amber</option>
+                    <option value="Red">Red</option>
+                    <option value="N/A">N/A</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Test Question 4 <span class="required">*</span></label>
+                <select name="status_1_4" required>
+                    <option value="">Select</option>
+                    <option value="Green">Green</option>
+                    <option value="Amber">Amber</option>
+                    <option value="Red">Red</option>
+                    <option value="N/A">N/A</option>
+                </select>
+            </div>
+
+            <div class="submit-section">
+                <button type="submit" class="submit-btn">
+                    Submit Test Form
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        console.log('Script started');
+        
+        // URL parametresinden company bilgisini al ve doldur
+        function fillCompanyFromURL() {
+            console.log('fillCompanyFromURL function called');
+            try {
+                const urlParams = new URLSearchParams(window.location.search);
+                const companyParam = urlParams.get('company');
+                
+                console.log('URL:', window.location.href);
+                console.log('URL Search:', window.location.search);
+                console.log('Company parameter:', companyParam);
+                
+                if (companyParam) {
+                    const companyInput = document.getElementById('company');
+                    console.log('Company input element:', companyInput);
+                    
+                    if (companyInput) {
+                        const decodedCompany = decodeURIComponent(companyParam);
+                        companyInput.value = decodedCompany;
+                        console.log('Company field filled with:', decodedCompany);
+                        
+                        // Görsel feedback için input'u highlight et
+                        companyInput.style.borderColor = '#28a745';
+                        companyInput.style.backgroundColor = '#f8fff8';
+                    } else {
+                        console.error('Company input field not found');
+                    }
+                } else {
+                    console.log('No company parameter found in URL');
+                }
+            } catch (error) {
+                console.error('Error filling company field:', error);
+            }
+        }
+
+        // Progress tracking
+        function updateProgress() {
+            const statusSelects = document.querySelectorAll('select[name^="status_"]');
+            const totalItems = statusSelects.length;
+            let completedItems = 0;
+
+            statusSelects.forEach(select => {
+                if (select.value !== '') {
+                    completedItems++;
+                }
+            });
+
+            const percentage = totalItems > 0 ? Math.round((completedItems / totalItems) * 100) : 0;
+            
+            document.getElementById('completedCount').textContent = completedItems;
+            document.getElementById('totalCount').textContent = totalItems;
+            document.getElementById('completionPercent').textContent = percentage + '%';
+            document.getElementById('progressFill').style.width = percentage + '%';
+        }
+
+        // DOM yüklendikten sonra
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM Content Loaded');
+            
+            // Company bilgisini URL'den doldur
+            fillCompanyFromURL();
+            
+            // Progress tracking event listeners
+            const statusSelects = document.querySelectorAll('select[name^="status_"]');
+            statusSelects.forEach(select => {
+                select.addEventListener('change', updateProgress);
+            });
+
+            // İlk progress update
+            updateProgress();
+
+            // Otomatik tarih/saat ayarlama
+            const now = new Date();
+            const localDateTime = now.getFullYear() + '-' + 
+                String(now.getMonth() + 1).padStart(2, '0') + '-' + 
+                String(now.getDate()).padStart(2, '0') + 'T' + 
+                String(now.getHours()).padStart(2, '0') + ':' + 
+                String(now.getMinutes()).padStart(2, '0');
+            
+            const datetimeField = document.getElementById('datetime');
+            if (datetimeField) {
+                datetimeField.value = localDateTime;
+            }
+        });
+
+        // Form submission handling
+        document.getElementById('verificationForm').addEventListener('submit', function(e) {
+            console.log('Form submitted');
+            // Success mesajını göster
+            document.getElementById('successMessage').style.display = 'block';
+            
+            // Sayfanın üstüne scroll
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // Netlify form submission otomatik olarak çalışacak
+        });
+
+        // Sayfa yüklendiğinde de test et (DOMContentLoaded'a ek olarak)
+        window.addEventListener('load', function() {
+            console.log('Window loaded');
+            fillCompanyFromURL();
+        });
+    </script>
+</body>
+</html>
