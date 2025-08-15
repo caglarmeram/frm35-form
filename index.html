@@ -326,7 +326,9 @@
         </div>
 
         <form class="form-section" id="verificationForm" name="frm35" method="POST" data-netlify="true">
-            
+            <input type="hidden" id="invite_token" name="invite_token">
+            <input type="hidden" id="parent_form32" name="parent_form32">
+
             <!-- Netlify Forms için gerekli gizli input -->
             <input type="hidden" name="form-name" value="frm35" />
             
@@ -4532,5 +4534,56 @@ document.getElementById('verificationForm').addEventListener('submit', function(
     // Netlify form submission otomatik olarak çalışacak
 });
     </script>
+    <script>
+(function () {
+  const form = document.getElementById('verificationForm');
+  const qs = new URLSearchParams(location.search);
+  const token = qs.get('invite');                 // FRM35 linkinde ?invite=TOKEN olmalı
+
+  if (!token) return block('Davet bağlantısı bulunamadı. Lütfen e-postadaki linki kullanın.');
+
+  fetch('/.netlify/functions/validate-invite?token=' + encodeURIComponent(token))
+    .then(r => r.json())
+    .then(res => {
+      if (!res.ok) return block('Davet geçersiz, süresi dolmuş ya da kullanılmış.');
+
+      const inv = res.invite || {};
+      // gizli alanlar
+      byId('invite_token').value = token;
+      byId('parent_form32').value = inv.parent_form32_id || '';
+
+      // görünen alanlar (kilitle)
+      lockFill('company', inv.contractor_name || '');
+      // tarih yoksa "şimdi" ile doldur
+      const dt = byId('datetime');
+      if (dt && !dt.value) {
+        const d = new Date();
+        d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+        dt.value = d.toISOString().slice(0, 16); // YYYY-MM-DDTHH:mm
+      }
+    })
+    .catch(() => block('Doğrulama sırasında sunucu hatası. Lütfen tekrar deneyin.'));
+
+  // yardımcılar
+  function byId(id) { return document.getElementById(id); }
+  function lockFill(id, val) {
+    const el = byId(id);
+    if (!el) return;
+    el.value = val;
+    el.readOnly = true;
+    el.style.background = '#f1f5f9';
+  }
+  function block(msg) {
+    if (form) [...form.elements].forEach(el => el.disabled = true);
+    const div = document.createElement('div');
+    div.style.cssText =
+      'background:#fee2e2;border:1px solid #ef4444;padding:12px;border-radius:8px;color:#7f1d1d;margin:16px 0;text-align:center;font-weight:600;';
+    div.textContent = msg;
+    (document.querySelector('.form-section') || document.body).prepend(div);
+  }
+})();
+</script>
+
 </body>
+
 </html>
